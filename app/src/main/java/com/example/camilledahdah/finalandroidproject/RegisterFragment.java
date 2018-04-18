@@ -7,9 +7,7 @@ package com.example.camilledahdah.finalandroidproject;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -100,7 +98,7 @@ public class RegisterFragment extends BaseFragment {
     @BindView(R.id.password)
     EditText passwordEditText;
 
-    @BindView(R.id.progressBar)
+    @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
     List<String> countries = new ArrayList();
@@ -124,7 +122,7 @@ public class RegisterFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.signup, container, false);
+        View view = inflater.inflate(R.layout.sign_up, container, false);
         ButterKnife.bind(this, view);
 
 
@@ -329,11 +327,20 @@ public class RegisterFragment extends BaseFragment {
         });
     }
 
+    @OnClick(R.id.login_button)
+    public void goToLoginFragment() {
+        listener.addLoginFragment();
+
+    }
+
+
     public interface RegisterFragmentListener {
 
         void onRegisterSuccess();
 
         void onRegisterFailure();
+
+        void addLoginFragment();
     }
 
     private void showProgressBar() {
