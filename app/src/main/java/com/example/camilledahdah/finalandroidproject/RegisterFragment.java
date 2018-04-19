@@ -41,7 +41,7 @@ public class RegisterFragment extends BaseFragment {
 
     public static final String TAG = RegisterFragment.class.getSimpleName();
 
-    private SimpleAdapter adapter;
+
 
     private AuthenticationApiManager authenticationApiManager;
 
@@ -101,7 +101,7 @@ public class RegisterFragment extends BaseFragment {
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
-    List<String> countries = new ArrayList();
+
 
 
     public RegisterFragment() {
@@ -125,29 +125,8 @@ public class RegisterFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.sign_up, container, false);
         ButterKnife.bind(this, view);
 
-
-        Locale[] locale = Locale.getAvailableLocales();
-
-        String country;
-
-        for( Locale loc : locale ){
-            country = loc.getDisplayCountry();
-            if( country.length() > 0 && !countries.contains(country) ){
-                countries.add( country );
-            }
-        }
-        Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        // call the adapter with argument list of items and context.
-        adapter = new SimpleAdapter(countries, getActivity());
-        recyclerView.setAdapter(adapter);
-
-        recyclerView.setVisibility(View.INVISIBLE);
-
-        addTextListener();
+        CountryHandler countryHandler = new CountryHandler(recyclerView, countryText, getActivity().getBaseContext());
+        countryHandler.addCountryListener();
         return view;
     }
 
@@ -294,38 +273,7 @@ public class RegisterFragment extends BaseFragment {
 
     }
 
-    public void addTextListener(){
 
-        countryText.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {}
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence query, int start, int before, int count) {
-
-                recyclerView.setVisibility(View.VISIBLE);
-
-                query = query.toString().toLowerCase();
-
-                final List<String> filteredList = new ArrayList<>();
-
-                for (int i = 0; i < countries.size(); i++) {
-
-                    final String text = countries.get(i).toLowerCase();
-                    if (text.contains(query)) {
-
-                        filteredList.add(countries.get(i));
-                    }
-                }
-
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                adapter = new SimpleAdapter(filteredList, getActivity());
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();  // data set changed
-            }
-        });
-    }
 
     @OnClick(R.id.login_button)
     public void goToLoginFragment() {
@@ -351,75 +299,7 @@ public class RegisterFragment extends BaseFragment {
         progressBar.setVisibility(View.INVISIBLE);
     }
 
-    public class SimpleAdapter extends
-            RecyclerView.Adapter<SimpleAdapter.MyViewHolder> {
 
-        private List<String> list_item ;
-        public Context mcontext;
-
-
-
-        public SimpleAdapter(List<String> list, Context context) {
-
-            list_item = list;
-            mcontext = context;
-        }
-
-        // Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
-        @Override
-        public SimpleAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                             int viewType) {
-            // create a layout
-            View view = LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.list_item, null);
-
-            MyViewHolder myViewHolder = new MyViewHolder(view);
-            return myViewHolder;
-        }
-
-        // Called by RecyclerView to display the data at the specified position.
-        @Override
-        public void onBindViewHolder(final MyViewHolder viewHolder, final int position ) {
-
-
-            viewHolder.country_name.setText(list_item.get(position));
-
-            viewHolder.country_name.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Toast.makeText(mcontext, list_item.get(position),
-                            Toast.LENGTH_LONG).show();
-
-                    countryText.setText(list_item.get(position));
-                    recyclerView.setVisibility(View.INVISIBLE);
-                    //searchText.setFocusable(false);
-
-                }
-            });
-
-        }
-
-        // initializes textview in this class
-        public class MyViewHolder extends RecyclerView.ViewHolder {
-
-            public TextView country_name;
-
-            public MyViewHolder(View itemLayoutView) {
-                super(itemLayoutView);
-
-                country_name = itemLayoutView.findViewById(R.id.country_name);
-
-            }
-        }
-
-        //Returns the total number of items in the data set hold by the adapter.
-        @Override
-        public int getItemCount() {
-            return list_item.size();
-        }
-
-    }
 
 
 }
