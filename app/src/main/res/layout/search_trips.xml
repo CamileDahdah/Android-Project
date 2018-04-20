@@ -51,8 +51,8 @@
         android:id="@+id/textView10"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:text="from"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +74,7 @@
 
 
         <EditText
-            android:id="@+id/from_country3"
+            android:id="@+id/from_country"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -92,17 +92,16 @@
         android:layout_marginStart="8dp"
         android:text="to"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/country_holder"
+        app:layout_constraintBottom_toBottomOf="@+id/textView10"
         app:layout_constraintStart_toEndOf="@+id/country_holder"
-        app:layout_constraintTop_toTopOf="@+id/country_holder" />
+        app:layout_constraintTop_toTopOf="@+id/textView10" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/country_holder4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/country_holder"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,7 +109,7 @@
         app:layout_constraintTop_toTopOf="@+id/country_holder">
 
         <EditText
-            android:id="@+id/from_country"
+            android:id="@+id/to_country"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -121,20 +120,30 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
+
+    <Button
+        android:id="@+id/time_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
+        android:layout_weight=".5"
+        android:gravity="center"
+        android:hint="When ?"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/country_holder" />
+        app:layout_constraintTop_toBottomOf="@+id/country_holder"
+        />
+
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/search_match_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -153,7 +162,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/time_button" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -169,7 +178,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
-        android:id="@+id/progress_bar_login"
+        android:id="@+id/progress_bar"
 
         android:layout_width="wrap_content"
 
@@ -179,10 +188,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/search_match_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner"
+        app:layout_constraintTop_toBottomOf="@+id/time_button"
         tools:visibility="visible" />
 
 </android.support.constraint.ConstraintLayout>

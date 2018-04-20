@@ -7,20 +7,35 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.DatePicker;
+
+import com.example.camilledahdah.finalandroidproject.API.authentication.AuthenticatedApiManager;
+import com.example.camilledahdah.finalandroidproject.models.ApiError;
+import com.example.camilledahdah.finalandroidproject.models.Trip;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Optional;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -43,20 +58,30 @@ public class MainActivity extends AppCompatActivity{
     @BindView(R.id.weight_spinner)
     Spinner weightSpinner;
 
+    @BindView(R.id.observations_edit_text)
+    EditText observationsEditText;
+
     int transportResID[] = new int[5];
     int capacityResID[] = new int[5];
     ImageView[] transportImages = new ImageView[5];
     ImageView[] capacityImages = new ImageView[5];
-
+//    List<String> transportTextList = Arrays.asList("car", "bus", "train", "truck", "airplane");
+//    List<String> capacityTextList = Arrays.asList("car", "bus", "train", "truck", "airplane");
+    int currentCapacityIndex, currentTransportIndex;
     public static final String TAG = MainActivity.class.getSimpleName();
+
+    private AuthenticatedApiManager authenticatedApiManager;
 
     final String meansOfTransport = "means_of_transport";
     final String capacityVolume = "capacity_volume";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_trip);
+
+        authenticatedApiManager = AuthenticatedApiManager.getInstance(this);
 
         ButterKnife.bind(this);
         CountryHandler countryHandler = new CountryHandler(recyclerView, fromCountry, this);
@@ -75,87 +100,25 @@ public class MainActivity extends AppCompatActivity{
             transportImages[i] = findViewById(transportResID[i]);
             capacityImages[i] = findViewById(capacityResID[i]);
         }
+
+        currentCapacityIndex = 0;
+        currentTransportIndex = 0;
+
     }
+
     @OnClick(R.id.from_date)
     public void clickFromDate(){
-        clickDate(fromDateButton);
+        DataDialogManager.clickDate(fromDateButton, this);
     }
 
     @OnClick(R.id.to_date)
     public void clickToDate(){
 
-        clickDate(toDateButton);
+        DataDialogManager.clickDate(toDateButton, this);
 
     }
 
-    public void clickDate(final Button dateTextButton){
-        Calendar cal = new Calendar() {
-            @Override
-            protected void computeTime() {
 
-            }
-
-            @Override
-            protected void computeFields() {
-
-            }
-
-            @Override
-            public void add(int field, int amount) {
-
-            }
-
-            @Override
-            public void roll(int field, boolean up) {
-
-            }
-
-            @Override
-            public int getMinimum(int field) {
-                return 0;
-            }
-
-            @Override
-            public int getMaximum(int field) {
-                return 0;
-            }
-
-            @Override
-            public int getGreatestMinimum(int field) {
-                return 0;
-            }
-
-            @Override
-            public int getLeastMaximum(int field) {
-                return 0;
-            }
-        }.getInstance();
-
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                MainActivity.this,
-                android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        month = month + 1;
-                        Log.d("date", "onDateSet: dd/mm/yy: " + day + "/" + month + "/" + year);
-
-                String date = day + "/" + month + "/" + year;
-                dateTextButton.setText(date);
-
-            }
-        }
-                ,year, month, day);
-
-        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        datePickerDialog.show();
-
-    }
 
     @Optional
     @OnClick({R.id.means_of_transport1, R.id.means_of_transport2, R.id.means_of_transport3, R.id.means_of_transport4, R.id.means_of_transport5})
@@ -165,7 +128,7 @@ public class MainActivity extends AppCompatActivity{
 
             if(view.getId() == transportResID[i]) {
                 view.setBackgroundColor(Color.BLUE);
-
+                currentTransportIndex = i;
 
             }else{
 
@@ -184,7 +147,7 @@ public class MainActivity extends AppCompatActivity{
 
             if(view.getId() == capacityResID[i]) {
                 view.setBackgroundColor(Color.BLUE);
-
+                currentCapacityIndex = i;
 
             }else{
 
@@ -193,5 +156,51 @@ public class MainActivity extends AppCompatActivity{
 
         }
     }
+
+    @OnClick(R.id.post_trip_button)
+    public void onClickPostTrip(){
+
+        String fromLocation = fromCountry.getText().toString();
+        String fromDate = fromDateButton.getText().toString();
+        String toLocation = toCountry.getText().toString();
+        String toDate = toDateButton.getText().toString();
+
+        String observations = observationsEditText.getText().toString();
+        String capacityVolume = currentCapacityIndex + "";
+        String transportIndex = currentTransportIndex + "";
+        String weight = weightSpinner.getSelectedItem().toString();
+
+        if (!TextUtils.isEmpty(fromLocation) && !TextUtils.isEmpty(fromDate) && !TextUtils.isEmpty(toLocation) && !TextUtils.isEmpty(toDate)
+        && !TextUtils.isEmpty(capacityVolume) && !TextUtils.isEmpty(transportIndex) && !TextUtils.isEmpty(weight)) {
+
+            Trip trip = new Trip(weight, fromLocation, fromDate, toLocation, toDate, observations, capacityVolume, transportIndex);
+            authenticatedApiManager.createTrip(trip).enqueue(new Callback<List<Trip>>() {
+
+                @Override
+                public void onResponse(Call<List<Trip>> call, Response<List<Trip>> response) {
+                    if (response.isSuccessful()) {
+                        Log.d(TAG, "success!");
+                    } else {
+                        try {
+                            String errorJson = response.errorBody().string();
+                            ApiError apiError = new Gson().fromJson(errorJson, ApiError.class);
+                            Log.d(TAG, String.valueOf(apiError));
+                            //actBasedOnApiErrorCode(apiError);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Trip>> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+
+
 
 }

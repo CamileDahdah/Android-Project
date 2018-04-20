@@ -19,7 +19,7 @@ public class AuthenticationApiManager {
 
     private AuthenticationApiManager() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/")
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
