@@ -1,4 +1,4 @@
-package com.example.camilledahdah.finalandroidproject;
+package com.example.camilledahdah.finalandroidproject.data.local;
 
 /**
  * Created by camilledahdah on 4/18/18.
@@ -50,4 +50,12 @@ public class LocalStorageManager {
                 .putString(USER_KEY, userJson)
                 .commit();
     }
+
+    public void deleteUser() {
+        sharedPreferences
+                .edit()
+                .putString(USER_KEY, null)
+                .commit();
+    }
+
 }

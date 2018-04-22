@@ -1,4 +1,4 @@
-package com.example.camilledahdah.finalandroidproject.API.authentication;
+package com.example.camilledahdah.finalandroidproject.API.authenticated;
 
 /**
  * Created by camilledahdah on 4/20/18.
@@ -6,7 +6,8 @@ package com.example.camilledahdah.finalandroidproject.API.authentication;
 
 import android.content.Context;
 
-import com.example.camilledahdah.finalandroidproject.LocalStorageManager;
+import com.example.camilledahdah.finalandroidproject.API.Constants;
+import com.example.camilledahdah.finalandroidproject.data.local.LocalStorageManager;
 import com.example.camilledahdah.finalandroidproject.models.Trip;
 import com.example.camilledahdah.finalandroidproject.models.User;
 
@@ -72,4 +73,8 @@ public class AuthenticatedApiManager {
         }
     }
 
+    public Call<User> getProfile() {
+        return authenticationApi.getProfile();
+
+    }
 }

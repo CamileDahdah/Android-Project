@@ -9,14 +9,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
-
+import java.util.Date;
 /**
  * Created by camilledahdah on 4/20/18.
  */
 
 public class DataDialogManager {
 
-    public static void clickDate(final Button dateTextButton, Context context){
+    public static long clickDate(final Button dateTextButton, Context context){
 
         Calendar cal = new Calendar() {
             @Override
@@ -64,6 +64,8 @@ public class DataDialogManager {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
+        long unixTime = cal.getTime().getTime();
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 context,
                 android.R.style.Theme_Holo_Light_Dialog_MinWidth,
@@ -84,5 +86,7 @@ public class DataDialogManager {
         datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         datePickerDialog.show();
 
+        Log.d("time", "time: " + unixTime);
+        return unixTime;
     }
 }

@@ -1,7 +1,6 @@
-package com.example.camilledahdah.finalandroidproject;
+package com.example.camilledahdah.finalandroidproject.screens.main.trips;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.camilledahdah.finalandroidproject.R;
 import com.example.camilledahdah.finalandroidproject.models.Trip;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by camilledahdah on 4/21/18.
@@ -61,6 +58,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
 
         String text = "Camile" + " " + "El Dahdah" + " is travelling from " + trip.getFromLocation()
                 + " to " + trip.getToLocation() + " on " + trip.getToDate();
+
 
         tripText.setText(text);
         observationsText.setText(trip.getObservations());

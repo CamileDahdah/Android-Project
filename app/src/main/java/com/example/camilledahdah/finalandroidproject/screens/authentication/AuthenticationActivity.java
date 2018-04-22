@@ -1,4 +1,4 @@
-package com.example.camilledahdah.finalandroidproject;
+package com.example.camilledahdah.finalandroidproject.screens.authentication;
 
 /**
  * Created by camilledahdah on 4/17/18.
@@ -7,13 +7,15 @@ package com.example.camilledahdah.finalandroidproject;
 import android.support.v7.app.AppCompatActivity;
 import butterknife.BindView;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
 
-import butterknife.BindView;
-        import butterknife.ButterKnife;
+import com.example.camilledahdah.finalandroidproject.screens.main.MainActivity;
+import com.example.camilledahdah.finalandroidproject.screens.main.trips.PostTripFragment;
+import com.example.camilledahdah.finalandroidproject.R;
+
+import butterknife.ButterKnife;
 
 public class AuthenticationActivity extends AppCompatActivity
         implements RegisterFragment.RegisterFragmentListener, LoginFragment.LoginFragmentListener {

@@ -11,21 +11,21 @@ public class Trip {
 
     @SerializedName("_id")
     private String id;
-    @SerializedName("weight")
+    //@SerializedName("weight")
     private String weight;
-    @SerializedName("from_location")
+    //@SerializedName("from_location")
     private String fromLocation;
-    @SerializedName("from_date")
+    //@SerializedName("from_date")
     private String fromDate;
-    @SerializedName("to_location")
+    //@SerializedName("to_location")
     private String toLocation;
-    @SerializedName("to_date")
+    //@SerializedName("to_date")
     private String toDate;
-    @SerializedName("observations")
+    //@SerializedName("observations")
     private String observations;
-    @SerializedName("capacity_volume")
+    //@SerializedName("capacity_volume")
     private String capacityVolume;
-    @SerializedName("transport")
+    //@SerializedName("transport")
     private String transport;
 
     public Trip (String weight, String fromLocation, String fromDate, String toLocation, String toDate, String observations, String capacityVolume, String transport) {

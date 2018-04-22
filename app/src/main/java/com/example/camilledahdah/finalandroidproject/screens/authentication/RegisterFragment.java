@@ -1,4 +1,4 @@
-package com.example.camilledahdah.finalandroidproject;
+package com.example.camilledahdah.finalandroidproject.screens.authentication;
 
 /**
  * Created by camilledahdah on 4/17/18.
@@ -9,26 +9,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.camilledahdah.finalandroidproject.API.authentication.AuthenticationApiManager;
+import com.example.camilledahdah.finalandroidproject.CountryHandler;
+import com.example.camilledahdah.finalandroidproject.R;
+import com.example.camilledahdah.finalandroidproject.base.BaseFragment;
 import com.example.camilledahdah.finalandroidproject.models.User;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

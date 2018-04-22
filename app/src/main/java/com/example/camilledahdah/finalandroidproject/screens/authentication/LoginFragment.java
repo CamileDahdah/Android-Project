@@ -1,9 +1,7 @@
-package com.example.camilledahdah.finalandroidproject;
+package com.example.camilledahdah.finalandroidproject.screens.authentication;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
@@ -13,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.camilledahdah.finalandroidproject.API.authentication.AuthenticationApiManager;
+import com.example.camilledahdah.finalandroidproject.R;
+import com.example.camilledahdah.finalandroidproject.base.BaseFragment;
+import com.example.camilledahdah.finalandroidproject.data.local.LocalStorageManager;
 import com.example.camilledahdah.finalandroidproject.models.ApiError;
 import com.example.camilledahdah.finalandroidproject.models.User;
 
