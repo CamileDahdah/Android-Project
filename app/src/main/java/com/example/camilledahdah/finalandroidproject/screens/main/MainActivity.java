@@ -118,13 +118,13 @@ public class MainActivity extends AppCompatActivity
     private void postTrip() {
         //setTitle(getString(R.string.title_events));
         PostTripFragment fragment = PostTripFragment.newInstance();
-        getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(PostTripFragment.TAG).commit();
     }
 
     private void searchTrips() {
         //setTitle(getString(R.string.title_events));
         SearchTripsFragment fragment = SearchTripsFragment.newInstance();
-        getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(SearchTripsFragment.TAG).commit();
     }
 
     private void logout() {
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity
     private void showProfileFragment() {
         //setTitle(getString(R.string.title_profile));
         ProfileFragment fragment = ProfileFragment.newInstance();
-        getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(ProfileFragment.TAG).commit();
 
     }
 
