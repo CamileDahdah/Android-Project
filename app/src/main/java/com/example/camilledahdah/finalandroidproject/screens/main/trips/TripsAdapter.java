@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,8 @@ import com.example.camilledahdah.finalandroidproject.R;
 import com.example.camilledahdah.finalandroidproject.models.Trip;
 
 import java.util.ArrayList;
-
+import java.util.Locale;
+import java.util.Calendar;
 /**
  * Created by camilledahdah on 4/21/18.
  */
@@ -46,6 +48,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
         Trip trip = mList.get(position);
 
         // Set item views based on your views and data model
@@ -56,12 +59,13 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
         ImageView phone = holder.phone;
         ImageView profilePic = holder.profilePic;
 
-        String text = "Camile" + " " + "El Dahdah" + " is travelling from " + trip.getFromLocation()
-                + " to " + trip.getToLocation() + " on " + trip.getToDate();
+        String text = "Camile" + " " + "El Dahdah" + " is travelling from " + trip.getFromLocation() + " on " + getDate(trip.getFromDate())
+                + " to " + trip.getToLocation() + " on " + getDate(trip.getToDate());
 
 
         tripText.setText(text);
         observationsText.setText(trip.getObservations());
+
         if(trip.getWeight() != Double.MAX_VALUE) {
             weight.setText(String.valueOf(trip.getWeight()) + " Kg");
         }else{
@@ -87,10 +91,21 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
         //profilePic.setImageResource();
     }
 
+    private String getDate(long time) {
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time);
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        return date;
+    }
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        if(mList != null) {
+            return mList.size();
+        }else{
+            return 0;
+
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

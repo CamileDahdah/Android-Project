@@ -74,7 +74,7 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
     String travellingByText = "You are travelling by";
     String itemVolumeText = "Item Volume is";
 
-    Long fromDateLong, toDateLong;
+    Long fromDateLong[] = new Long[1], toDateLong[] = new Long[1];
 
     int backgroundButtonColor;
 
@@ -117,7 +117,7 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
 
         View view = inflater.inflate(R.layout.post_trip, container, false);
 
-        fromDateLong = toDateLong = null;
+        fromDateLong[0] = toDateLong[0] = null;
         ButterKnife.bind(this, view);
 
         itemVolumeTextView.setText(itemVolumeText);
@@ -182,14 +182,14 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
 
     @OnClick(R.id.from_date)
     public void clickFromDate(){
-        fromDateLong = DataDialogManager.clickDate(fromDateButton, getActivity());
+        DataDialogManager.clickDate(fromDateButton, getActivity(), fromDateLong);
 
     }
 
     @OnClick(R.id.to_date)
     public void clickToDate(){
 
-        toDateLong = DataDialogManager.clickDate(toDateButton, getActivity());
+        DataDialogManager.clickDate(toDateButton, getActivity(), toDateLong);
 
     }
 
@@ -262,10 +262,10 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
             e.printStackTrace();
         }
 
-        if (!TextUtils.isEmpty(fromLocation) && fromDateLong != null && !TextUtils.isEmpty(toLocation) && toDateLong != null
+        if (!TextUtils.isEmpty(fromLocation) && fromDateLong[0] != null && !TextUtils.isEmpty(toLocation) && toDateLong[0] != null && toDateLong[0] > 0 && fromDateLong[0] > 0
                 && !TextUtils.isEmpty(capacityVolume) && !TextUtils.isEmpty(transportIndex) && weightDouble != null) {
 
-            Trip trip = new Trip(weightDouble, fromLocation, fromDateLong.longValue(), toLocation, toDateLong.longValue(), observations, capacityTextList.get(currentCapacityIndex), transportTextList.get(currentTransportIndex));
+            Trip trip = new Trip(weightDouble, fromLocation, fromDateLong[0].longValue(), toLocation, toDateLong[0].longValue(), observations, capacityTextList.get(currentCapacityIndex), transportTextList.get(currentTransportIndex));
             authenticatedApiManager.createTrip(trip).enqueue(new Callback<User>() {
 
                 @Override

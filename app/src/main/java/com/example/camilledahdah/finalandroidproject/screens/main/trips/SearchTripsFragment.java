@@ -25,6 +25,7 @@ import com.example.camilledahdah.finalandroidproject.models.TripSearch;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,7 +61,7 @@ public class SearchTripsFragment extends BaseFragment implements AuthenticatedSc
 
     private SearchTripsFragmentListener mListener;
 
-    Long toDate;
+    Long[] toDate = new Long[1];
 
     public SearchTripsFragment() {
         // Required empty public constructor
@@ -75,7 +76,8 @@ public class SearchTripsFragment extends BaseFragment implements AuthenticatedSc
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         authenticatedApiManager = AuthenticatedApiManager.getInstance(getActivity());
-        toDate = null;
+       // toDate = null;
+        toDate[0] = new Long(0);
 
     }
 
@@ -103,7 +105,7 @@ public class SearchTripsFragment extends BaseFragment implements AuthenticatedSc
     @OnClick(R.id.time_button)
     public void onClickTimeButton(){
 
-        toDate = DataDialogManager.clickDate(timeButton, getActivity());
+         DataDialogManager.clickDate(timeButton, getActivity(), toDate);
 
     }
 
@@ -134,12 +136,14 @@ public class SearchTripsFragment extends BaseFragment implements AuthenticatedSc
         }
 
         if(!TextUtils.isEmpty(fromCountryText) && !TextUtils.isEmpty(toCountryText)
-                && toDate !=null  && selectedItemDouble != null) {
+                && toDate !=null   && toDate[0] != null && toDate[0] != 0 && selectedItemDouble != null) {
 
             //No need for from date
-            TripSearch tripSearch = new TripSearch(toDate, toDate, fromCountryText, toCountryText, selectedItemDouble);
+            TripSearch tripSearch = new TripSearch(toDate[0], toDate[0], fromCountryText, toCountryText, selectedItemDouble);
 
             showProgressBar();
+
+            mListener.onFoundTrips(null);
 
             authenticatedApiManager.getTrips(tripSearch).enqueue(new Callback<List<Trip>>() {
 

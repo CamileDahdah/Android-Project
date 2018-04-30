@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.DatePicker;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 /**
@@ -16,7 +18,9 @@ import java.util.Date;
 
 public class DataDialogManager {
 
-    public static long clickDate(final Button dateTextButton, Context context){
+
+
+    public static void clickDate(final Button dateTextButton, Context context, final Long[] newUnixTime) {
 
         Calendar cal = new Calendar() {
             @Override
@@ -64,7 +68,6 @@ public class DataDialogManager {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        long unixTime = cal.getTime().getTime();
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 context,
@@ -73,20 +76,31 @@ public class DataDialogManager {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+
+
                         month = month + 1;
                         Log.d("date", "onDateSet: dd/mm/yy: " + day + "/" + month + "/" + year);
+                        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+                        try {
+                            Date date = (Date) formatter.parse(day + "-" + month + "-" + year);
+                            newUnixTime[0] = date.getTime();
+                        } catch (Exception e) {
+                            newUnixTime[0] = new Long(0);
+                            e.printStackTrace();
+
+                        }
+
 
                         String date = day + "/" + month + "/" + year;
                         dateTextButton.setText(date);
 
                     }
                 }
-                ,year, month, day);
+                , year, month, day);
 
         datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         datePickerDialog.show();
 
-        Log.d("time", "time: " + unixTime);
-        return unixTime;
     }
 }
