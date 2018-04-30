@@ -38,13 +38,15 @@ public class TripsListFragment extends BaseFragment implements AuthenticatedScre
 
     private TripsListFragmentListener mListener;
 
+    public static final String TAG = TripsListFragment.class.getSimpleName();
+
     private AuthenticatedApiManager authenticatedApiManager;
     private LocalStorageManager localStorageManager;
 
     @BindView(R.id.rv)
     RecyclerView recyclerView;
 
-    ArrayList<Trip> tripsList;
+    List<Trip> tripsList;
 
 
     public TripsListFragment() {
@@ -66,7 +68,7 @@ public class TripsListFragment extends BaseFragment implements AuthenticatedScre
     @Override
     public void onResume() {
         super.onResume();
-//        fetchAllEvents();
+        fetchAllTrips();
     }
 
     @Override
@@ -75,17 +77,20 @@ public class TripsListFragment extends BaseFragment implements AuthenticatedScre
         View view = inflater.inflate(R.layout.fragment_trips_list, container, false);
         ButterKnife.bind(this, view);
 
-        tripsList = new ArrayList<>();
 
+        return view;
+    }
 
-        for (int i = 0; i < 6; i++) {
+    void fetchAllTrips(){
 
-            tripsList.add(new Trip("4 Kg", "Zouk", "November", "Dahyeh", "tomorrow", "I love to eat fish", "Very Large", "Car"));
+        tripsList = mListener.getTripsList();
 
-        }
+//        for (int i = 0; i < 6; i++) {
+//
+//            tripsList.add(new Trip("4 Kg", "Zouk", new Long(4), "Dahyeh", new Long(3), "I love to eat fish", "Very Large", "Car"));
+//        }
 
-
-        TripsAdapter adapter = new TripsAdapter(getActivity(), tripsList);
+        TripsAdapter adapter = new TripsAdapter(getActivity(), (ArrayList<Trip>) tripsList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
 
         RecyclerView.LayoutManager mLayoutManager = linearLayoutManager;
@@ -93,14 +98,12 @@ public class TripsListFragment extends BaseFragment implements AuthenticatedScre
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        return view;
+
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
 
     }
 
@@ -125,14 +128,14 @@ public class TripsListFragment extends BaseFragment implements AuthenticatedScre
     @Override
     public void notLoggedInAnymore() {
         if (mListener != null) {
-            //mListener.onErrorFetchingEvents();
+            mListener.onErrorFetchingTrips();
         }
     }
 
     public interface TripsListFragmentListener {
-        void onRequestCreateNewEvent();
+        List<Trip> getTripsList();
 
-        void onErrorFetchingEvents();
+        void onErrorFetchingTrips();
     }
 
 }

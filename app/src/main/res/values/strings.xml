@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">FinalAndroidProject</string>
+    <string name="app_name">Ship Me</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main">Main2Activity</string>
+    <string name="title_activity_main">Ship Me</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

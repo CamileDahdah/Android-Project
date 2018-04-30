@@ -11,24 +11,25 @@ public class Trip {
 
     @SerializedName("_id")
     private String id;
-    //@SerializedName("weight")
-    private String weight;
-    //@SerializedName("from_location")
+    @SerializedName("weight")
+    private Double weight;
+    @SerializedName("from_location")
     private String fromLocation;
-    //@SerializedName("from_date")
-    private String fromDate;
-    //@SerializedName("to_location")
+    @SerializedName("from_date")
+    private Long fromDate;
+    @SerializedName("to_location")
     private String toLocation;
-    //@SerializedName("to_date")
-    private String toDate;
-    //@SerializedName("observations")
+    @SerializedName("to_date")
+    private Long toDate;
+    @SerializedName("observations")
     private String observations;
-    //@SerializedName("capacity_volume")
+    @SerializedName("capacity_volume")
     private String capacityVolume;
-    //@SerializedName("transport")
+    @SerializedName("transport")
     private String transport;
 
-    public Trip (String weight, String fromLocation, String fromDate, String toLocation, String toDate, String observations, String capacityVolume, String transport) {
+    public Trip (Double weight, String fromLocation, Long fromDate, String toLocation, Long
+            toDate, String observations, String capacityVolume, String transport) {
 
         this.weight = weight;
         this.fromLocation = fromLocation;
@@ -41,7 +42,7 @@ public class Trip {
     }
 
 
-    public String getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
@@ -49,7 +50,7 @@ public class Trip {
         return fromLocation;
     }
 
-    public String getFromDate() {
+    public Long getFromDate() {
         return fromDate;
     }
 
@@ -57,7 +58,7 @@ public class Trip {
         return toLocation;
     }
 
-    public String getToDate() {
+    public Long getToDate() {
         return toDate;
     }
 

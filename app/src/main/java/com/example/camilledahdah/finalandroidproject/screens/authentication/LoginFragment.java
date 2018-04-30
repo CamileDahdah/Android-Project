@@ -18,6 +18,7 @@ import com.example.camilledahdah.finalandroidproject.base.BaseFragment;
 import com.example.camilledahdah.finalandroidproject.data.local.LocalStorageManager;
 import com.example.camilledahdah.finalandroidproject.models.ApiError;
 import com.example.camilledahdah.finalandroidproject.models.User;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 

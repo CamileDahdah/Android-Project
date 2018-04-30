@@ -2,22 +2,26 @@ package com.example.camilledahdah.finalandroidproject.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by camilledahdah on 4/17/18.
  */
 
 public class User {
 
-    @SerializedName("_id")
+    @SerializedName("id")
     private String id;
     private String firstName;
+    private String lastName;
     private String email;
     private String password;
     private String token;
     private String phoneNumber;
     private String country;
     private String city;
-    private String lastName;
+
+    private List<Trip> tripsList;
 
     public User(String firstName, String lastName, String email, String password, String phoneNumber, String city, String country) {
 
@@ -105,6 +109,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<Trip> getTripsList() {
+        return tripsList;
+    }
+
+    public void setTripsList(List<Trip> tripsList) {
+        this.tripsList = tripsList;
     }
 
 }

@@ -18,7 +18,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.example.camilledahdah.finalandroidproject.API.authentication.AuthenticationApiManager;
-import com.example.camilledahdah.finalandroidproject.CountryHandler;
+import com.example.camilledahdah.finalandroidproject.utils.CountryHandler;
 import com.example.camilledahdah.finalandroidproject.R;
 import com.example.camilledahdah.finalandroidproject.base.BaseFragment;
 import com.example.camilledahdah.finalandroidproject.models.User;

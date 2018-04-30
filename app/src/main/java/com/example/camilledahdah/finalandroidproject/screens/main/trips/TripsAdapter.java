@@ -1,6 +1,8 @@
 package com.example.camilledahdah.finalandroidproject.screens.main.trips;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,10 +37,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        // Inflate the custom layout
         View contactView = inflater.inflate(R.layout.trip_view, parent, false);
 
-        // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(contactView);
 
         return viewHolder;
@@ -62,7 +62,13 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
 
         tripText.setText(text);
         observationsText.setText(trip.getObservations());
-        weight.setText(trip.getWeight());
+        if(trip.getWeight() != Double.MAX_VALUE) {
+            weight.setText(String.valueOf(trip.getWeight()) + " Kg");
+        }else{
+
+            weight.setText("+11 Kg");
+        }
+
         volume.setText(trip.getCapacityVolume());
 
 
@@ -70,6 +76,10 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String phoneNumber = "+96176465311";
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
+                mContext.startActivity(intent);
 
             }
         });
@@ -84,8 +94,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // Your holder should contain a member variable
-        // for any view that will be set as you render a row
+
         TextView tripText;
         TextView observationsText;
         TextView weight;
@@ -93,11 +102,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
         ImageView phone;
         ImageView profilePic;
 
-        // We also create a constructor that accepts the entire item row
-        // and does the view lookups to find each subview
+
         public ViewHolder(View itemView) {
-            // Stores the itemView in a public final member variable that can be used
-            // to access the context from any ViewHolder instance.
             super(itemView);
 
 

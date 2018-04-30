@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    tools:showIn="navigation_view"
+    >
 
     <group android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_search_trips"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@mipmap/search_trip"
             android:title="Search Trips" />
 
         <item
             android:id="@+id/nav_post_trip"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@mipmap/trip_logo"
             android:title="Post Trip" />
 
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@mipmap/profile"
             android:title="Profile" />
 
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@mipmap/logout"
             android:title="Logout" />
 
     </group>

@@ -4,6 +4,7 @@ package com.example.camilledahdah.finalandroidproject.screens.splash;
  * Created by camilledahdah on 4/21/18.
  */
 
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.camilledahdah.finalandroidproject.R;
@@ -34,10 +35,13 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        final MediaPlayer mp = MediaPlayer.create(SplashActivity.this, R.raw.intro_splash);
+        mp.start();
+
         logoImageView = findViewById(R.id.logo);
 
         valueAnimator = ValueAnimator.ofFloat(0, 1);
-        valueAnimator.setDuration(500);
+        valueAnimator.setDuration(4000);
         valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -49,9 +53,6 @@ public class SplashActivity extends AppCompatActivity {
         valueAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-               // final MediaPlayer mp = MediaPlayer.create(SplashActivity.this, R.raw.mac_startup);
-               // mp.start();
-
 
                 gotoNextScreen();
             }

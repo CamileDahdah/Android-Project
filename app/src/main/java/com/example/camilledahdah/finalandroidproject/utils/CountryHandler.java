@@ -1,4 +1,4 @@
-package com.example.camilledahdah.finalandroidproject;
+package com.example.camilledahdah.finalandroidproject.utils;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.camilledahdah.finalandroidproject.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -130,8 +132,8 @@ public class CountryHandler {
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(mcontext, list_item.get(position),
-                            Toast.LENGTH_LONG).show();
+                    //Toast.makeText(mcontext, list_item.get(position),
+                       //     Toast.LENGTH_LONG).show();
 
                     countryText.setText(list_item.get(position));
                     recyclerView.setVisibility(View.INVISIBLE);

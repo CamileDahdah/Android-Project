@@ -4,10 +4,8 @@ package com.example.camilledahdah.finalandroidproject.screens.main.trips;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +17,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.camilledahdah.finalandroidproject.API.authenticated.AuthenticatedApiManager;
-import com.example.camilledahdah.finalandroidproject.CountryHandler;
-import com.example.camilledahdah.finalandroidproject.DataDialogManager;
+import com.example.camilledahdah.finalandroidproject.models.User;
+import com.example.camilledahdah.finalandroidproject.utils.CountryHandler;
+import com.example.camilledahdah.finalandroidproject.utils.DataDialogManager;
 import com.example.camilledahdah.finalandroidproject.R;
 import com.example.camilledahdah.finalandroidproject.base.AuthenticatedScreen;
 import com.example.camilledahdah.finalandroidproject.base.BaseFragment;
@@ -29,6 +28,7 @@ import com.example.camilledahdah.finalandroidproject.models.Trip;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,6 +57,12 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
     @BindView(R.id.to_country)
     TextView toCountry;
 
+    @BindView(R.id.travelling_by_textview)
+    TextView travellingByTextView;
+
+    @BindView(R.id.item_volume_textview)
+    TextView itemVolumeTextView;
+
     @BindView(R.id.weight_spinner)
     Spinner weightSpinner;
 
@@ -65,12 +71,21 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
 
     private LocationFragmentListener mListener;
 
+    String travellingByText = "You are travelling by";
+    String itemVolumeText = "Item Volume is";
+
+    Long fromDateLong, toDateLong;
+
+    int backgroundButtonColor;
+
     int transportResID[] = new int[5];
     int capacityResID[] = new int[5];
     ImageView[] transportImages = new ImageView[5];
     ImageView[] capacityImages = new ImageView[5];
-//    List<String> transportTextList = Arrays.asList("car", "bus", "train", "truck", "airplane");
-//    List<String> capacityTextList = Arrays.asList("car", "bus", "train", "truck", "airplane");
+
+    List<String> transportTextList = Arrays.asList("Car", "Bus", "Train", "Truck", "Airplane");
+    List<String> capacityTextList = Arrays.asList("X Small", "Small", "Medium", "Large", "X Large");
+
     int currentCapacityIndex, currentTransportIndex;
     public static final String TAG = PostTripFragment.class.getSimpleName();
 
@@ -93,6 +108,7 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         authenticatedApiManager = AuthenticatedApiManager.getInstance(getActivity());
+        backgroundButtonColor = Color.parseColor("#21af4b");
     }
 
     @Override
@@ -101,9 +117,11 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
 
         View view = inflater.inflate(R.layout.post_trip, container, false);
 
-        //setContentView(R.layout.post_trip);
-
+        fromDateLong = toDateLong = null;
         ButterKnife.bind(this, view);
+
+        itemVolumeTextView.setText(itemVolumeText);
+        travellingByTextView.setText(travellingByText);
 
         CountryHandler countryHandler = new CountryHandler(recyclerView, fromCountry, getActivity());
         countryHandler.addCountryListener();
@@ -111,7 +129,7 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
         CountryHandler countryHandler2 = new CountryHandler(recyclerView, toCountry, getActivity());
         countryHandler2.addCountryListener();
 
-        String[] items = new String[]{ "0.5 Kg", "1 Kg", "2 Kg", "5 Kg", "10 Kg","+20 Kg" };
+        String[] items = new String[]{ "0.5 Kg", "1 Kg", "2 Kg", "5 Kg", "10 Kg","+11 Kg" };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
         weightSpinner.setAdapter(adapter);
 
@@ -151,39 +169,41 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
     @Override
     public void notLoggedInAnymore() {
         if (mListener != null) {
-            mListener.onNewEvertCreationFailure();
+            mListener.onNewTripCreationFailure();
         }
     }
 
     public interface LocationFragmentListener {
-        void onNewEvertCreatedSuccessfully();
+        void onNewTripCreatedSuccessfully();
 
-        void onNewEvertCreationFailure();
+        void onNewTripCreationFailure();
     }
 
 
     @OnClick(R.id.from_date)
     public void clickFromDate(){
-        DataDialogManager.clickDate(fromDateButton, getActivity());
+        fromDateLong = DataDialogManager.clickDate(fromDateButton, getActivity());
+
     }
 
     @OnClick(R.id.to_date)
     public void clickToDate(){
 
-        DataDialogManager.clickDate(toDateButton, getActivity());
+        toDateLong = DataDialogManager.clickDate(toDateButton, getActivity());
 
     }
 
 
 
     @Optional
-    @OnClick({R.id.means_of_transport1, R.id.means_of_transport2, R.id.means_of_transport3, R.id.means_of_transport4, R.id.means_of_transport5})
+    @OnClick( {R.id.means_of_transport1, R.id.means_of_transport2, R.id.means_of_transport3, R.id.means_of_transport4, R.id.means_of_transport5})
     public void onClickTransport(View view) {
 
         for(int i = 0; i < transportResID.length; i++){
 
             if(view.getId() == transportResID[i]) {
-                view.setBackgroundColor(Color.BLUE);
+                travellingByTextView.setText(travellingByText + " " + transportTextList.get(i));
+                view.setBackgroundColor(backgroundButtonColor);
                 currentTransportIndex = i;
 
             }else{
@@ -202,11 +222,11 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
         for(int i = 0; i < capacityResID.length; i++){
 
             if(view.getId() == capacityResID[i]) {
-                view.setBackgroundColor(Color.BLUE);
+                itemVolumeTextView.setText(itemVolumeText + " " + capacityTextList.get(i));
+                view.setBackgroundColor(backgroundButtonColor);
                 currentCapacityIndex = i;
 
             }else{
-
                 capacityImages[i].setBackground(getResources().getDrawable(R.drawable.border_image));
             }
 
@@ -217,42 +237,63 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
     public void onClickPostTrip(){
 
         String fromLocation = fromCountry.getText().toString();
-        String fromDate = fromDateButton.getText().toString();
+
         String toLocation = toCountry.getText().toString();
-        String toDate = toDateButton.getText().toString();
+
 
         String observations = observationsEditText.getText().toString();
         String capacityVolume = currentCapacityIndex + "";
         String transportIndex = currentTransportIndex + "";
+
         String weight = weightSpinner.getSelectedItem().toString();
 
-        if (!TextUtils.isEmpty(fromLocation) && !TextUtils.isEmpty(fromDate) && !TextUtils.isEmpty(toLocation) && !TextUtils.isEmpty(toDate)
-        && !TextUtils.isEmpty(capacityVolume) && !TextUtils.isEmpty(transportIndex) && !TextUtils.isEmpty(weight)) {
+        Double weightDouble = null;
 
-            Trip trip = new Trip(weight, fromLocation, fromDate, toLocation, toDate, observations, capacityVolume, transportIndex);
-            authenticatedApiManager.createTrip(trip).enqueue(new Callback<List<Trip>>() {
+        try {
+
+            weightDouble = Double.parseDouble(weight.replaceAll("[/[^0-9.]/g, \"\"]", ""));
+            if(weightDouble == 11){
+                weightDouble = Double.MAX_VALUE;
+
+            }
+
+        }catch (Exception e){
+
+            e.printStackTrace();
+        }
+
+        if (!TextUtils.isEmpty(fromLocation) && fromDateLong != null && !TextUtils.isEmpty(toLocation) && toDateLong != null
+                && !TextUtils.isEmpty(capacityVolume) && !TextUtils.isEmpty(transportIndex) && weightDouble != null) {
+
+            Trip trip = new Trip(weightDouble, fromLocation, fromDateLong.longValue(), toLocation, toDateLong.longValue(), observations, capacityTextList.get(currentCapacityIndex), transportTextList.get(currentTransportIndex));
+            authenticatedApiManager.createTrip(trip).enqueue(new Callback<User>() {
 
                 @Override
-                public void onResponse(Call<List<Trip>> call, Response<List<Trip>> response) {
+                public void onResponse(Call<User> call, Response<User> response) {
                     if (response.isSuccessful()) {
-                        Log.d(TAG, "success!");
+                        showToastMessage(String.valueOf("success!"));
                     } else {
                         try {
                             String errorJson = response.errorBody().string();
                             ApiError apiError = new Gson().fromJson(errorJson, ApiError.class);
-                            Log.d(TAG, String.valueOf(apiError));
+                            showToastMessage(String.valueOf(apiError));
                             //actBasedOnApiErrorCode(apiError);
                         } catch (IOException e) {
                             e.printStackTrace();
+                            showToastMessage("Error: " + e);
                         }
                     }
                 }
 
                 @Override
-                public void onFailure(Call<List<Trip>> call, Throwable t) {
-
+                public void onFailure(Call<User> call, Throwable t) {
+                    showToastMessage(t.getMessage());
                 }
             });
+        }else{
+
+            showToastMessage("Missing Fields :/");
+
         }
     }
 

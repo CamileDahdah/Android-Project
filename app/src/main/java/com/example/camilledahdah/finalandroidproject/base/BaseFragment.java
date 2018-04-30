@@ -18,6 +18,11 @@ public class BaseFragment extends Fragment {
         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
     }
 
+    public void showNoInternetToastMessage(){
+        Toast.makeText(getActivity(), "Something went wrong, check that you have internet connection", Toast.LENGTH_SHORT).show();
+
+    }
+
     public ApiError parseApiErrorString(String error) {
         return gson.fromJson(error, ApiError.class);
     }

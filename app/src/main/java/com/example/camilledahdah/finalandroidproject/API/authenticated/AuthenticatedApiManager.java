@@ -9,6 +9,7 @@ import android.content.Context;
 import com.example.camilledahdah.finalandroidproject.API.Constants;
 import com.example.camilledahdah.finalandroidproject.data.local.LocalStorageManager;
 import com.example.camilledahdah.finalandroidproject.models.Trip;
+import com.example.camilledahdah.finalandroidproject.models.TripSearch;
 import com.example.camilledahdah.finalandroidproject.models.User;
 
 import java.io.IOException;
@@ -21,6 +22,8 @@ import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.QueryMap;
 
 public class AuthenticatedApiManager {
 
@@ -51,9 +54,15 @@ public class AuthenticatedApiManager {
 
 
 
-    public Call<List<Trip>> createTrip(Trip trip) {
+    public Call<User> createTrip(Trip trip) {
         return authenticationApi.createNewTrip(trip);
     }
+
+    public Call<List<Trip>> getTrips(TripSearch tripSearch){
+
+        return authenticationApi.getTrips(tripSearch);
+    }
+
 
     public static AuthenticatedApiManager getInstance(Context context) {
         if (authenticationApiManager == null) {

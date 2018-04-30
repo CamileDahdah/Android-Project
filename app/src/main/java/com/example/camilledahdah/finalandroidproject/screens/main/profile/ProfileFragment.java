@@ -41,6 +41,15 @@ public class ProfileFragment extends BaseFragment implements AuthenticatedScreen
     @BindView(R.id.email)
     TextView emailTextView;
 
+    @BindView(R.id.phone_number)
+    TextView phoneNumberTextView;
+
+    @BindView(R.id.country)
+    TextView countyTextView;
+
+    @BindView(R.id.city)
+    TextView cityTextView;
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -102,11 +111,27 @@ public class ProfileFragment extends BaseFragment implements AuthenticatedScreen
 
     private void showUserDetails(User user) {
         if (!TextUtils.isEmpty(user.getFirstName())) {
-            nameTextView.setText(user.getFirstName());
+
+            if(!TextUtils.isEmpty(user.getLastName())){
+                nameTextView.setText(user.getFirstName() + " " + user.getLastName());
+            }else{
+
+                nameTextView.setText(user.getFirstName());
+            }
         }
         if (!TextUtils.isEmpty(user.getEmail())) {
             emailTextView.setText(user.getEmail());
         }
+        if (!TextUtils.isEmpty(user.getPhoneNumber())) {
+            phoneNumberTextView.setText(user.getPhoneNumber());
+        }
+        if (!TextUtils.isEmpty(user.getCountry())) {
+            countyTextView.setText(user.getCountry());
+        }
+        if (!TextUtils.isEmpty(user.getCity())) {
+            cityTextView.setText(user.getCity());
+        }
+
     }
 
     private void fetchUserFromLocalStorage() {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,8 +13,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="What are you looking for today ?
-"
+        android:text="What are you looking for today ?"
+        android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +27,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:textColor="#000000"
         android:text="Welcome to Ship Me, Camile"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,6 +41,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:textColor="#000000"
         android:text="I want to get an item"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,6 +55,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="from"
+        android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -91,6 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="to"
+        android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView10"
         app:layout_constraintStart_toEndOf="@+id/country_holder"
@@ -124,22 +127,29 @@
     <Button
         android:id="@+id/time_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="82dp"
         android:layout_weight=".5"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="#00c9a4"
+
         android:gravity="center"
         android:hint="When ?"
+
+        android:paddingLeft="26dp"
+        android:paddingRight="26dp"
+
         android:textAlignment="center"
-        android:textSize="22sp"
+        android:textColor="#000000"
+        android:textColorLink="@android:color/black"
+        android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/country_holder"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/country_holder" />
 
 
     <Button
@@ -183,15 +193,57 @@
         android:layout_width="wrap_content"
 
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/search_match_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/time_button"
         tools:visibility="visible" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        app:layout_constraintBottom_toTopOf="@+id/time_button"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/radioGroup2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/country_holder">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight=".5"
+            android:text="Maximum weight"
+
+            android:textColor="#000000"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/weight_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+
+            android:layout_weight=".5" />
+
+    </LinearLayout>
+
+
+
 
 </android.support.constraint.ConstraintLayout>

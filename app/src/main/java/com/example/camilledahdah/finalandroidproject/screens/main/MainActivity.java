@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.camilledahdah.finalandroidproject.R;
 import com.example.camilledahdah.finalandroidproject.data.local.LocalStorageManager;
+import com.example.camilledahdah.finalandroidproject.models.Trip;
 import com.example.camilledahdah.finalandroidproject.models.User;
 import com.example.camilledahdah.finalandroidproject.screens.authentication.AuthenticationActivity;
 import com.example.camilledahdah.finalandroidproject.screens.main.profile.ProfileFragment;
@@ -21,16 +22,23 @@ import com.example.camilledahdah.finalandroidproject.screens.main.trips.PostTrip
 import com.example.camilledahdah.finalandroidproject.screens.main.trips.SearchTripsFragment;
 import com.example.camilledahdah.finalandroidproject.screens.main.trips.TripsListFragment;
 
+import java.util.List;
+
 /**
  * Created by camilledahdah on 4/21/18.
  */
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ProfileFragment.ProfileFragmentListener,
-        PostTripFragment.LocationFragmentListener, TripsListFragment.TripsListFragmentListener {
+        PostTripFragment.LocationFragmentListener, TripsListFragment.TripsListFragmentListener, SearchTripsFragment.SearchTripsFragmentListener {
 
     private LocalStorageManager localStorageManager;
     private TextView nameHeaderTextView, emailHeaderTextView;
+    private List<Trip> currentTripsList;
+
+    public void setCurrentTripsList(List<Trip> currentTripsList) {
+        this.currentTripsList = currentTripsList;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +47,10 @@ public class MainActivity extends AppCompatActivity
 
         localStorageManager = LocalStorageManager.getInstance(this);
 
-        NavigationView navigationView1 = findViewById(R.id.nav_view);
-        View header = navigationView1.getHeaderView(0);
+        NavigationView mNavigationView = findViewById(R.id.nav_view);
+        View header = mNavigationView.getHeaderView(0);
+        mNavigationView.setItemIconTintList(null);
+
         nameHeaderTextView = header.findViewById(R.id.name);
         emailHeaderTextView = header.findViewById(R.id.email);
 
@@ -150,30 +160,49 @@ public class MainActivity extends AppCompatActivity
         gotoAuthenticationScreen();
     }
 
-    @Override
-    public void onRequestCreateNewEvent() {
-        //setTitle(getString(R.string.PostTripFragment));
-        PostTripFragment fragment = PostTripFragment.newInstance();
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, fragment)
-                .addToBackStack(PostTripFragment.TAG).commit();
-    }
+//    @Override
+//    public void onRequestCreateNewEvent() {
+//        //setTitle(getString(R.string.PostTripFragment));
+//        PostTripFragment fragment = PostTripFragment.newInstance();
+//        getFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.container, fragment)
+//                .addToBackStack(PostTripFragment.TAG).commit();
+//    }
 
     @Override
-    public void onErrorFetchingEvents() {
+    public void onErrorFetchingTrips() {
         gotoAuthenticationScreen();
     }
 
     @Override
-    public void onNewEvertCreatedSuccessfully() {
+    public void onNewTripCreatedSuccessfully() {
         //setTitle(getString(R.string.title_events));
         getFragmentManager().popBackStack();
     }
 
     @Override
-    public void onNewEvertCreationFailure() {
+    public void onNewTripCreationFailure() {
         gotoAuthenticationScreen();
     }
 
+    @Override
+    public void onFoundTrips(List<Trip> tripList){
+
+        setCurrentTripsList(tripList);
+
+        TripsListFragment fragment = TripsListFragment.newInstance();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(TripsListFragment.TAG).commit();
+
+    }
+
+    @Override
+    public List<Trip> getTripsList(){
+
+        return currentTripsList;
+
+    }
 }
