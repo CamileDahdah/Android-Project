@@ -23,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public class AuthenticatedApiManager {
@@ -63,6 +64,11 @@ public class AuthenticatedApiManager {
         return authenticationApi.getTrips(tripSearch);
     }
 
+    public Call<User> getSpecificProfile(String email){
+
+        return authenticationApi.getSpecificProfile(email);
+
+    }
 
     public static AuthenticatedApiManager getInstance(Context context) {
         if (authenticationApiManager == null) {

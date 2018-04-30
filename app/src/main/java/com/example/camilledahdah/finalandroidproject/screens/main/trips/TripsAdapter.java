@@ -11,12 +11,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.camilledahdah.finalandroidproject.API.authenticated.AuthenticatedApi;
+import com.example.camilledahdah.finalandroidproject.API.authenticated.AuthenticatedApiManager;
 import com.example.camilledahdah.finalandroidproject.R;
+import com.example.camilledahdah.finalandroidproject.models.ApiError;
 import com.example.camilledahdah.finalandroidproject.models.Trip;
+import com.example.camilledahdah.finalandroidproject.models.User;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Created by camilledahdah on 4/21/18.
  */
@@ -49,21 +61,58 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Trip trip = mList.get(position);
+        final Trip trip = mList.get(position);
 
         // Set item views based on your views and data model
-        TextView tripText = holder.tripText;
+        final TextView tripText = holder.tripText;
         TextView observationsText = holder.observationsText;
         TextView weight = holder.weight;
         TextView volume = holder.volume;
         ImageView phone = holder.phone;
         ImageView profilePic = holder.profilePic;
+        final String[] phoneNumber = new String[1];
 
-        String text = "Camile" + " " + "El Dahdah" + " is travelling from " + trip.getFromLocation() + " on " + getDate(trip.getFromDate())
-                + " to " + trip.getToLocation() + " on " + getDate(trip.getToDate());
+        phoneNumber[0] = null;
 
 
-        tripText.setText(text);
+        AuthenticatedApiManager.getInstance(mContext).getSpecificProfile(trip.getEmail()).enqueue(new Callback<User>() {
+
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                if (response.isSuccessful()) {
+                    User user = response.body();
+
+                    String text = user.getFirstName() + " " + user.getLastName() + " is travelling from " + trip.getFromLocation() + " on " + getDate(trip.getFromDate())
+                            + " to " + trip.getToLocation() + " on " + getDate(trip.getToDate());
+
+                    phoneNumber[0] = user.getPhoneNumber();
+                    tripText.setText(text);
+
+                } else {
+                    try {
+                        String errorJson = response.errorBody().string();
+                        ApiError apiError = new Gson().fromJson(errorJson, ApiError.class);
+
+                        //actBasedOnApiErrorCode(apiError);
+                    } catch (IOException e) {
+
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+
+            }
+        });
+
+
+
+
+
         observationsText.setText(trip.getObservations());
 
         if(trip.getWeight() != Double.MAX_VALUE) {
@@ -81,9 +130,10 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder>{
             @Override
             public void onClick(View v) {
 
-                String phoneNumber = "+96176465311";
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
-                mContext.startActivity(intent);
+                if(phoneNumber[0] != null) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber[0], null));
+                    mContext.startActivity(intent);
+                }
 
             }
         });

@@ -28,6 +28,8 @@ public class Trip {
     @SerializedName("transport")
     private String transport;
 
+    private String email;
+
     public Trip (Double weight, String fromLocation, Long fromDate, String toLocation, Long
             toDate, String observations, String capacityVolume, String transport) {
 
@@ -78,5 +80,8 @@ public class Trip {
         return transport;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
 }

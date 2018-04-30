@@ -22,6 +22,9 @@ public interface AuthenticatedApi {
     @GET("profile")
     Call<User> getProfile();
 
+    @GET("profile/search")
+    Call<User> getSpecificProfile( @Query("email") String email);
+
     @POST("trips")
     Call<User> createNewTrip(@Body Trip trip);
 
