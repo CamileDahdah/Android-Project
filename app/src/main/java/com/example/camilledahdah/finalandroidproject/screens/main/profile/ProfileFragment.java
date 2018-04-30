@@ -17,6 +17,7 @@ import com.example.camilledahdah.finalandroidproject.base.BaseFragment;
 import com.example.camilledahdah.finalandroidproject.data.local.LocalStorageManager;
 import com.example.camilledahdah.finalandroidproject.models.ApiError;
 import com.example.camilledahdah.finalandroidproject.models.User;
+import com.example.camilledahdah.finalandroidproject.screens.main.trips.PostTripFragment;
 
 import java.io.IOException;
 
@@ -50,6 +51,8 @@ public class ProfileFragment extends BaseFragment implements AuthenticatedScreen
     @BindView(R.id.city)
     TextView cityTextView;
 
+
+    public static final String TAG = ProfileFragment.class.getSimpleName();
 
     public ProfileFragment() {
         // Required empty public constructor

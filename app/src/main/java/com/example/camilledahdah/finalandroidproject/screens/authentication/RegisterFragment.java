@@ -18,10 +18,13 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.example.camilledahdah.finalandroidproject.API.authentication.AuthenticationApiManager;
+import com.example.camilledahdah.finalandroidproject.models.ApiError;
 import com.example.camilledahdah.finalandroidproject.utils.CountryHandler;
 import com.example.camilledahdah.finalandroidproject.R;
 import com.example.camilledahdah.finalandroidproject.base.BaseFragment;
 import com.example.camilledahdah.finalandroidproject.models.User;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -165,13 +168,19 @@ public class RegisterFragment extends BaseFragment {
         if (TextUtils.isEmpty(firstName)) {
             firstNameHolder.setError("first name field is required");
             flag = false;
-        } else {
+        } else if(lastName.length() < 5) {
+            firstNameHolder.setError("first name field must have minimum 5 character");
+            flag = false;
+        }else {
             firstNameHolder.setError(null);
         }
 
         if (TextUtils.isEmpty(lastName)) {
             lastNameHolder.setError("last name field is required");
             flag = false;
+        }else if(lastName.length() < 5){
+            lastNameHolder.setError("last name field must have minimum 5 character");
+
         } else {
             lastNameHolder.setError(null);
         }
@@ -236,7 +245,18 @@ public class RegisterFragment extends BaseFragment {
                             if (response.isSuccessful()) {
                                 listener.onRegisterSuccess();
                             } else {
+
+                                String errorString = null;
+                                try {
+                                    errorString = response.errorBody().string();
+                                } catch (IOException e) {
+                                    showToastMessage(e.toString());
+                                    e.printStackTrace();
+                                }
+                                ApiError error = parseApiErrorString(errorString);
+                                showToastMessage(error.getMessage());
                                 listener.onRegisterFailure();
+
                             }
                         }
 

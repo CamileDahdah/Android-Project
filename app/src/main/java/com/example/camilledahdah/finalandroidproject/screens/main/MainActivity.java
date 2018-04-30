@@ -1,6 +1,8 @@
 package com.example.camilledahdah.finalandroidproject.screens.main;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,7 +25,7 @@ import com.example.camilledahdah.finalandroidproject.screens.main.trips.SearchTr
 import com.example.camilledahdah.finalandroidproject.screens.main.trips.TripsListFragment;
 
 import java.util.List;
-
+import android.support.v7.app.AlertDialog;
 /**
  * Created by camilledahdah on 4/21/18.
  */
@@ -74,16 +76,6 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         searchTrips();
         populateHeaderViews();
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
 
@@ -139,6 +131,42 @@ public class MainActivity extends AppCompatActivity
         ProfileFragment fragment = ProfileFragment.newInstance();
         getFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(ProfileFragment.TAG).commit();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+
+
+            int backStackEntryCount = getFragmentManager().getBackStackEntryCount();
+            if (backStackEntryCount == 0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                int imageResource = android.R.drawable.ic_dialog_alert;
+                Drawable image = getResources().getDrawable(imageResource);
+
+                builder.setTitle("Exit").setMessage("want to exit?").setIcon(image).setCancelable(false).setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.setCancelable(false);
+                alert.show();
+            }else{
+
+                super.onBackPressed();
+            }
+        }
     }
 
     private void populateHeaderViews() {

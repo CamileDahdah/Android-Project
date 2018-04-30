@@ -70,6 +70,7 @@ public class AuthenticationActivity extends AppCompatActivity
         getFragmentManager().popBackStack();
     }
 
+
     @Override
     public void onRegisterFailure() {
 

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.camilledahdah.finalandroidproject.API.authenticated.AuthenticatedApiManager;
 import com.example.camilledahdah.finalandroidproject.models.User;
+import com.example.camilledahdah.finalandroidproject.screens.main.profile.ProfileFragment;
 import com.example.camilledahdah.finalandroidproject.utils.CountryHandler;
 import com.example.camilledahdah.finalandroidproject.utils.DataDialogManager;
 import com.example.camilledahdah.finalandroidproject.R;
@@ -73,6 +74,7 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
 
     String travellingByText = "You are travelling by";
     String itemVolumeText = "Item Volume is";
+
 
     Long fromDateLong[] = new Long[1], toDateLong[] = new Long[1];
 
@@ -233,6 +235,12 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
         }
     }
 
+    @OnClick(R.id.cancel_trip_button)
+    public void cancelClick(){
+        getFragmentManager().popBackStack();
+
+    }
+
     @OnClick(R.id.post_trip_button)
     public void onClickPostTrip(){
 
@@ -271,7 +279,9 @@ public class PostTripFragment extends BaseFragment implements AuthenticatedScree
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     if (response.isSuccessful()) {
+
                         showToastMessage(String.valueOf("success!"));
+                        mListener.onNewTripCreatedSuccessfully();
                     } else {
                         try {
                             String errorJson = response.errorBody().string();
